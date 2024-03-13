@@ -21,11 +21,18 @@ public class ItemsServiceImpl implements ItemsService {
         ItemsEntity itemsEntity = new ItemsEntity();
         itemsEntity.setItem(addItemRequest.getItemName());
         try {
-            itemsRepository.save(itemsEntity);
-            addItemResponse.setResultCode("200");
-            addItemResponse.setResultDesc("Item added successfully");
+            ItemsEntity itemsEntity1 = itemsRepository.findByItem(addItemRequest.getItemName());
+            if (itemsEntity1 != null){
+                addItemResponse.setResultCode("401");
+                addItemResponse.setResultDesc("Item already exists");
+            } else {
+                itemsRepository.save(itemsEntity);
+                addItemResponse.setResultCode("200");
+                addItemResponse.setResultDesc("Item added successfully");
+            }
         } catch (Exception e){
-            e.printStackTrace();
+            addItemResponse.setResultCode("402");
+            addItemResponse.setResultDesc("Exception occurred while adding item");
         }
         return addItemResponse;
     }
@@ -35,7 +42,6 @@ public class ItemsServiceImpl implements ItemsService {
         CheckItemResponse checkItemResponse = new CheckItemResponse();
         checkItemResponse.setResponseId(checkItemRequest.getRequestId());
         ItemsEntity itemsEntity = itemsRepository.findByItem(checkItemRequest.getItem());
-        System.out.println(itemsEntity);
         if (itemsEntity != null){
             checkItemResponse.setResultCode("200");
             checkItemResponse.setResultDesc("Item exists");
