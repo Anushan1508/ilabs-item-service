@@ -2,6 +2,8 @@ package com.example.itemservice.application.controller;
 
 import com.example.itemservice.domain.dto.addItem.AddItemRequest;
 import com.example.itemservice.domain.dto.addItem.AddItemResponse;
+import com.example.itemservice.domain.dto.checkItem.CheckItemRequest;
+import com.example.itemservice.domain.dto.checkItem.CheckItemResponse;
 import com.example.itemservice.domain.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +21,10 @@ public class ItemController {
     @PostMapping("/additem")
     public ResponseEntity<AddItemResponse> addItem(@RequestBody AddItemRequest addItemRequest){
         return ResponseEntity.ok(itemsService.addItem(addItemRequest));
+    }
+
+    @PostMapping("/checkitem")
+    public ResponseEntity<CheckItemResponse> checkItem(@RequestBody CheckItemRequest checkItemRequest){
+        return ResponseEntity.ok(itemsService.checkItem(checkItemRequest));
     }
 }

@@ -2,6 +2,8 @@ package com.example.itemservice.domain.service.impl;
 
 import com.example.itemservice.domain.dto.addItem.AddItemRequest;
 import com.example.itemservice.domain.dto.addItem.AddItemResponse;
+import com.example.itemservice.domain.dto.checkItem.CheckItemRequest;
+import com.example.itemservice.domain.dto.checkItem.CheckItemResponse;
 import com.example.itemservice.domain.entities.ItemsEntity;
 import com.example.itemservice.domain.service.ItemsService;
 import com.example.itemservice.external.repository.ItemRepository;
@@ -26,5 +28,21 @@ public class ItemsServiceImpl implements ItemsService {
             e.printStackTrace();
         }
         return addItemResponse;
+    }
+
+    @Override
+    public CheckItemResponse checkItem(CheckItemRequest checkItemRequest) {
+        CheckItemResponse checkItemResponse = new CheckItemResponse();
+        checkItemResponse.setResponseId(checkItemRequest.getRequestId());
+        ItemsEntity itemsEntity = itemsRepository.findByItem(checkItemRequest.getItem());
+        System.out.println(itemsEntity);
+        if (itemsEntity != null){
+            checkItemResponse.setResultCode("200");
+            checkItemResponse.setResultDesc("Item exists");
+        } else {
+            checkItemResponse.setResultCode("404");
+            checkItemResponse.setResultDesc("Item does not exist");
+        }
+        return checkItemResponse;
     }
 }
