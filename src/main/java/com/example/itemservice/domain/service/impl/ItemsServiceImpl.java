@@ -18,7 +18,6 @@ public class ItemsServiceImpl implements ItemsService {
         addItemResponse.setResponseId(addItemRequest.getRequestId());
         ItemsEntity itemsEntity = new ItemsEntity();
         itemsEntity.setItem(addItemRequest.getItemName());
-        System.out.println("Item Name = " + itemsEntity.getItem());
         try {
             itemsRepository.save(itemsEntity);
             addItemResponse.setResultCode("200");
